@@ -7,7 +7,6 @@ export default function Login() {
   const [emailInvalid, setEmailInvalid] = useState(true);
   const history = useHistory();
   const MINIMUM_CHARACTERS = 6;
-  console.log(history);
 
   // Código abaixo de validar email visualizado em Stack Overflow
   // URL: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
