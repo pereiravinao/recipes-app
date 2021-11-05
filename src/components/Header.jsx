@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import HeaderSearchBar from './HeaderSearchBar';
 
 export default function Header({ title, search }) {
+  const [boolSearchBtn, setBoolSearchBtn] = useState(false);
   return (
     <header>
       <nav>
@@ -15,16 +17,17 @@ export default function Header({ title, search }) {
             alt="Perfil"
           />
         </Link>
-        <span data-testid="page-title">{title}</span>
+        <h4 data-testid="page-title">{title}</h4>
         { search ? (
-          <Link to="/explorar">
+          <button type="button" onClick={ () => setBoolSearchBtn(!boolSearchBtn) }>
             <img
               src={ searchIcon }
               data-testid="search-top-btn"
               alt="Buscar"
             />
-          </Link>)
+          </button>)
           : '' }
+        { boolSearchBtn ? <HeaderSearchBar /> : ''}
       </nav>
     </header>
   );
