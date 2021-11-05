@@ -28,6 +28,11 @@ export default function Login() {
     return true;
   }
 
+  function handleClick() {
+    localStorage.setItem('mealsToken', '1');
+    localStorage.setItem('cocktailsToken', '1');
+  }
+
   return (
     <div>
       <h1>LOGIN</h1>
@@ -49,6 +54,7 @@ export default function Login() {
         data-testid="login-submit-btn"
         type="button"
         disabled={ buttonDisabled() }
+        onClick={ () => handleClick() }
       >
         {' '}
         Entrar
