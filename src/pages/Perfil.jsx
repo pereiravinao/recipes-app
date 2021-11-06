@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 export default function Perfil() {
-  const { email } = JSON.parse(localStorage.getItem('user'));
   const history = useHistory();
-  console.log(history);
+  const [email, setEmail] = useState('');
+  useEffect(() => {
+    const storage = JSON.parse(localStorage.getItem('user'));
+    if (storage) setEmail(storage.email);
+  }, []);
   const cssButton = {
     border: 'none',
     backgroundColor: 'lightgrey',
