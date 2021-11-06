@@ -28,7 +28,7 @@ export default function Perfil() {
 
   return (
     <div>
-      <Header title="Perfil" search />
+      <Header title="Perfil" />
       <main style={ cssMain }>
         <h1 data-testid="profile-email">
           {email}

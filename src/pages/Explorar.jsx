@@ -5,7 +5,7 @@ import Header from '../components/Header';
 export default function Explorar() {
   return (
     <div>
-      <Header title="Bebidas" search />
+      <Header title="Explorar" search />
       <div>
         <h1> Aqui estará o conteúdo da página</h1>
       </div>
