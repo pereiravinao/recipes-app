@@ -4,7 +4,7 @@ import Context from './Context';
 
 export default function Provider({ children }) {
   return (
-    <Context.Provider>
+    <Context.Provider value={ {} }>
       { children }
     </Context.Provider>
   );
