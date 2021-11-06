@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import CardsBebidas from '../components/CardsBebidas';
 import Context from '../context/Context';
@@ -36,6 +37,13 @@ export default function Comidas() {
     }
   }
   return (
-    <Header title="Bebidas" search />
+    <div>
+      <Header title="Bebidas" search />
+      <div>
+        <h1> Aqui estará o conteúdo da página</h1>
+      </div>
+      <Footer />
+    </div>
+
   );
 }

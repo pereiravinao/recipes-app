@@ -1,5 +1,8 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
+
+import Footer from '../components/Footer';
+
 import Header from '../components/Header';
 import CardsComidas from '../components/CardsComidas';
 import Context from '../context/Context';
@@ -35,6 +38,11 @@ export default function Comidas() {
     }
   }
   return (
-    <Header title="Comidas" search />
+
+    <div>
+      <Header title="Comidas" search />
+      <Footer />
+    </div>
+
   );
 }
