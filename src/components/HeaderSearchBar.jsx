@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
+import Context from '../context/Context';
 import { apiIngrediente,
   apiNome, apiPrimeiraLetra } from '../services/RequestApi';
 
@@ -8,21 +9,25 @@ export default function HeaderSearchBar() {
   const [radioClick, setRadioClick] = useState('');
   const [changeInput, setChangeInput] = useState('');
   const pageLocation = history.location.pathname;
+  const { setRequestApi } = useContext(Context);
 
   const searchApi = () => {
     switch (radioClick) {
     case 'ingrediente':
-      apiIngrediente(changeInput, pageLocation);
+      apiIngrediente(changeInput, pageLocation)
+        .then((results) => setRequestApi(results));
       break;
     case 'nome':
-      apiNome(changeInput, pageLocation);
+      apiNome(changeInput, pageLocation)
+        .then((results) => setRequestApi(results));
       break;
     case 'primeiraLetra':
       if (changeInput.length > 1) {
         global
           .alert('Sua busca deve conter somente 1 (um) caracter');
       }
-      apiPrimeiraLetra(changeInput, pageLocation);
+      apiPrimeiraLetra(changeInput, pageLocation)
+        .then((results) => setRequestApi(results));
       break;
     default:
       break;
