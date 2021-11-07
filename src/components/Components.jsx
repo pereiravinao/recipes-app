@@ -7,17 +7,44 @@ import Explorar from '../pages/Explorar';
 import Perfil from '../pages/Perfil';
 import ReceitasProntas from '../pages/ReceitasProntas';
 import ReceitasFavoritas from '../pages/ReceitasFavoritas';
+import ExplorarComidas from '../pages/ExplorarComidas';
+import ExplorarBebidas from '../pages/ExplorarBebidas';
+import ReceitasEmProgresso from '../pages/ReceitasEmProgresso';
+import DetalhesReceitas from '../pages/DetalhesReceitas';
+import ExplorarComidasArea from '../pages/ExplorarComidasArea';
+import ExplorarIngredientes from '../pages/ExplorarIngredientes';
 
 export default function Components() {
   return (
     <Switch>
-      <Route path="/comidas" component={ Comidas } />
-      <Route path="/bebidas" component={ Bebidas } />
-      <Route path="/explorar" component={ Explorar } />
+
+      <Route path="/comidas/{id-da-receita}" component={ DetalhesReceitas } />
+      <Route path="/bebidas/{id-da-receita}" component={ DetalhesReceitas } />
+
+      <Route
+        path="/comidas/{id-da-receita}/in-progress"
+        component={ ReceitasEmProgresso }
+      />
+      <Route
+        path="/bebidas/{id-da-receita}/in-progress"
+        component={ ReceitasEmProgresso }
+      />
+
+      <Route exact path="/explorar" component={ Explorar } />
+      <Route exact path="/explorar/comidas" component={ ExplorarComidas } />
+      <Route exact path="/explorar/bebidas" component={ ExplorarBebidas } />
+
+      <Route path="/explorar/comidas/ingredientes" component={ ExplorarIngredientes } />
+      <Route path="/explorar/bebidas/ingredientes" component={ ExplorarIngredientes } />
+
+      <Route path="/explorar/comidas/area" component={ ExplorarComidasArea } />
+
       <Route path="/perfil" component={ Perfil } />
       <Route path="/receitas-feitas" component={ ReceitasProntas } />
       <Route path="/receitas-favoritas" component={ ReceitasFavoritas } />
-      <Route path="/" component={ Login } />
+      <Route exact path="/comidas" component={ Comidas } />
+      <Route exact path="/bebidas" component={ Bebidas } />
+      <Route exact path="/" component={ Login } />
     </Switch>
   );
 }
