@@ -27,16 +27,23 @@ export default function DetalhesReceitas() {
                 Ingredientes:
               </ul>
               <p data-testid="instructions">{ receita.strInstructions }</p>
-              <Player
-                data-testid="video"
-                playsInline
-                src={ receita.strYoutube }
-                poster={ receita.strMealThumb }
-              />
+              <div data-testid="video">
+                <Player
+                  playsInline
+                  src={ receita.strYoutube }
+                  poster={ receita.strMealThumb }
+                />
+              </div>
               <div data-testid={ `${idx}-recomendation-card` }>
                 Receitas Recomendads
               </div>
-              <button type="button" data-testid="favorite-btn">Favoritar</button>
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+              >
+                Iniciar Receita
+
+              </button>
             </div>
           )) }
     </div>
