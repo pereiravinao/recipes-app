@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
-export default function ExplorarBebidas() {
+export default function ExplorarBebidas({ history }) {
   return (
     <div>
       <Header title="Explorar Bebidas" />
@@ -10,6 +11,9 @@ export default function ExplorarBebidas() {
         <button
           type="button"
           data-testid="explore-by-ingredient"
+          onClick={ () => {
+            history.push('/explorar/bebidas/ingredientes');
+          } }
         >
           Por Ingredientes
         </button>
@@ -24,3 +28,9 @@ export default function ExplorarBebidas() {
     </div>
   );
 }
+
+ExplorarBebidas.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
