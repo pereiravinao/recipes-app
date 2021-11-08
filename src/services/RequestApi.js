@@ -49,3 +49,16 @@ export const apiAleatoria = async (type) => {
     return resultsApiAleatoria;
   }
 };
+
+export const apiReceitaID = async (id, page) => {
+  if (page.includes('/comidas')) {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+    const resultsApiID = await response.json();
+    return resultsApiID;
+  }
+  if (page.includes('/bebidas')) {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+    const resultsApiID = await response.json();
+    return resultsApiID;
+  }
+};
