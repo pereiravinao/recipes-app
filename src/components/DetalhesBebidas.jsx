@@ -28,7 +28,13 @@ export default function DetalhesReceitas() {
               <div data-testid={ `${idx}-recomendation-card` }>
                 Receitas Recomendads
               </div>
-              <button type="button" data-testid="favorite-btn">Favoritar</button>
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+              >
+                Iniciar Receita
+
+              </button>
             </div>
           )) }
     </div>
