@@ -18,15 +18,15 @@ export default function Components() {
   return (
     <Switch>
 
-      <Route path="/comidas/{id-da-receita}" component={ DetalhesReceitas } />
-      <Route path="/bebidas/{id-da-receita}" component={ DetalhesReceitas } />
+      <Route path="/comidas/:id" component={ DetalhesReceitas } />
+      <Route path="/bebidas/:id" component={ DetalhesReceitas } />
 
       <Route
-        path="/comidas/{id-da-receita}/in-progress"
+        path="/comidas/:id/in-progress"
         component={ ReceitasEmProgresso }
       />
       <Route
-        path="/bebidas/{id-da-receita}/in-progress"
+        path="/bebidas/:id/in-progress"
         component={ ReceitasEmProgresso }
       />
 

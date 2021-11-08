@@ -42,3 +42,10 @@ export const filtroBtnCategorias = async (type) => {
   const jsonObj = await response.json();
   return jsonObj;
 };
+
+export const filtraPorCategoria = async (type, categoria) => {
+  const response = await fetch(`https://www.${type}.com/api/json/v1/1/filter.php?c=${categoria}`);
+  const jsonObj = await response.json();
+  console.log(jsonObj);
+  return jsonObj;
+};

@@ -9,8 +9,12 @@ import BtnFilter from '../components/BtnFilter';
 import Context from '../context/Context';
 
 export default function Comidas() {
-  const { requestApi, setRequestApi, setBtnCategory, btnCategory } = useContext(Context);
-  console.log(requestApi);
+  const { requestApi,
+    setRequestApi,
+    setBtnCategory,
+    btnCategory,
+    redirectDisable,
+  } = useContext(Context);
   const history = useHistory();
 
   useEffect(() => {
@@ -29,7 +33,7 @@ export default function Comidas() {
         </div>
       );
     }
-    if (requestApi.drinks.length === 1) {
+    if (requestApi.drinks.length === 1 && !redirectDisable) {
       return (
         <div>
           <Header title="Bebidas" search />
@@ -42,7 +46,7 @@ export default function Comidas() {
       return (
         <div>
           <Header title="Bebidas" search />
-          {btnCategory ? <BtnFilter /> : '' }
+          {btnCategory ? <BtnFilter page={ history } /> : ''}
           <CardsBebidas />
         </div>
       );

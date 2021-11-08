@@ -9,7 +9,13 @@ import Context from '../context/Context';
 import BtnFilter from '../components/BtnFilter';
 
 export default function Comidas() {
-  const { requestApi, setRequestApi, btnCategory, setBtnCategory } = useContext(Context);
+  const {
+    requestApi,
+    setRequestApi,
+    btnCategory,
+    setBtnCategory,
+    redirectDisable,
+  } = useContext(Context);
   const history = useHistory();
 
   useEffect(() => {
@@ -28,11 +34,11 @@ export default function Comidas() {
         </div>
       );
     }
-    if (requestApi.meals.length === 1) {
+    if (requestApi.meals.length === 1 && !redirectDisable) {
       return (
         <div>
           <Header title="Comidas" search />
-          { history.push(`/comidas/${requestApi.meals[0].idMeal}`) }
+          {history.push(`/comidas/${requestApi.meals[0].idMeal}`)}
         </div>
 
       );
@@ -41,7 +47,7 @@ export default function Comidas() {
       return (
         <div>
           <Header title="Comidas" search />
-          {btnCategory ? <BtnFilter /> : '' }
+          {btnCategory ? <BtnFilter page={ history } /> : ''}
           <CardsComidas />
         </div>
       );
