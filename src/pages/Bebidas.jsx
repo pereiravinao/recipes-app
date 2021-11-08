@@ -1,14 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { apiNome } from '../services/RequestApi';
+import Loading from '../components/Loading';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import CardsBebidas from '../components/CardsBebidas';
 import Context from '../context/Context';
 
 export default function Comidas() {
-  const { requestApi } = useContext(Context);
+  const { requestApi, setRequestApi } = useContext(Context);
   console.log(requestApi);
   const history = useHistory();
+
+  useEffect(() => {
+    apiNome('', '/bebidas')
+      .then((results) => setRequestApi(results));
+  }, []);
+
   if (typeof requestApi === 'object') {
     if (requestApi.drinks === null) {
       global.alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
@@ -39,9 +47,7 @@ export default function Comidas() {
   return (
     <div>
       <Header title="Bebidas" search />
-      <div>
-        <h1> Aqui estará o conteúdo da página</h1>
-      </div>
+      {requestApi ? <CardsBebidas /> : <Loading />}
       <Footer />
     </div>
 
