@@ -36,3 +36,16 @@ export const apiPrimeiraLetra = async (primeiraLetra, page) => {
     return resultsApiPrimeiraLetra;
   }
 };
+
+export const apiAleatoria = async (type) => {
+  if (type === 'comida') {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+    const resultsApiAleatoria = await response.json();
+    return resultsApiAleatoria;
+  }
+  if (type === 'bebida') {
+    const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
+    const resultsApiAleatoria = await response.json();
+    return resultsApiAleatoria;
+  }
+};
