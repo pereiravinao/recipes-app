@@ -48,4 +48,40 @@ export const filtraPorCategoria = async (type, categoria) => {
   const jsonObj = await response.json();
   console.log(jsonObj);
   return jsonObj;
+
+export const apiAleatoria = async (type) => {
+  if (type === 'comida') {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+    const resultsApiAleatoria = await response.json();
+    return resultsApiAleatoria;
+  }
+  if (type === 'bebida') {
+    const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
+    const resultsApiAleatoria = await response.json();
+    return resultsApiAleatoria;
+  }
+};
+
+export const apiListaIngredientes = async (type) => {
+  if (type === 'comida') {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list');
+    const resultsApiIngredientes = await response.json();
+    return resultsApiIngredientes;
+  }
+  if (type === 'bebida') {
+    const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list');
+    const resultsApiIngredientes = await response.json();
+    return resultsApiIngredientes;
+
+export const apiReceitaID = async (id, page) => {
+  if (page.includes('/comidas')) {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+    const resultsApiID = await response.json();
+    return resultsApiID;
+  }
+  if (page.includes('/bebidas')) {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+    const resultsApiID = await response.json();
+    return resultsApiID;
+  }
 };
