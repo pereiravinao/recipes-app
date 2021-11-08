@@ -4,10 +4,13 @@ import Context from './Context';
 
 export default function Provider({ children }) {
   const [requestApi, setRequestApi] = useState();
+  const [btnCategory, setBtnCategory] = useState('');
 
   const context = {
     requestApi,
     setRequestApi,
+    btnCategory,
+    setBtnCategory,
   };
   return (
 

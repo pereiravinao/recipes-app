@@ -36,3 +36,9 @@ export const apiPrimeiraLetra = async (primeiraLetra, page) => {
     return resultsApiPrimeiraLetra;
   }
 };
+
+export const filtroBtnCategorias = async (type) => {
+  const response = await fetch(`https://www.${type}.com/api/json/v1/1/list.php?c=list`);
+  const jsonObj = await response.json();
+  return jsonObj;
+};

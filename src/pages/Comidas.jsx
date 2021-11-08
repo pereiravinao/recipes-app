@@ -1,19 +1,22 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { apiNome } from '../services/RequestApi';
+import { apiNome, filtroBtnCategorias } from '../services/RequestApi';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import CardsComidas from '../components/CardsComidas';
 import Context from '../context/Context';
+import BtnFilter from '../components/BtnFilter';
 
 export default function Comidas() {
-  const { requestApi, setRequestApi } = useContext(Context);
+  const { requestApi, setRequestApi, btnCategory, setBtnCategory } = useContext(Context);
   const history = useHistory();
 
   useEffect(() => {
     apiNome('', '/comidas')
       .then((results) => setRequestApi(results));
+    filtroBtnCategorias('themealdb')
+      .then((results) => setBtnCategory(results.meals));
   }, []);
 
   if (typeof requestApi === 'object') {
@@ -38,6 +41,7 @@ export default function Comidas() {
       return (
         <div>
           <Header title="Comidas" search />
+          {btnCategory ? <BtnFilter /> : '' }
           <CardsComidas />
         </div>
       );

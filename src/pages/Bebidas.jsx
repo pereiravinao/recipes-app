@@ -1,20 +1,23 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { apiNome } from '../services/RequestApi';
+import { apiNome, filtroBtnCategorias } from '../services/RequestApi';
 import Loading from '../components/Loading';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import CardsBebidas from '../components/CardsBebidas';
+import BtnFilter from '../components/BtnFilter';
 import Context from '../context/Context';
 
 export default function Comidas() {
-  const { requestApi, setRequestApi } = useContext(Context);
+  const { requestApi, setRequestApi, setBtnCategory, btnCategory } = useContext(Context);
   console.log(requestApi);
   const history = useHistory();
 
   useEffect(() => {
     apiNome('', '/bebidas')
       .then((results) => setRequestApi(results));
+    filtroBtnCategorias('thecocktaildb')
+      .then((results) => setBtnCategory(results.drinks));
   }, []);
 
   if (typeof requestApi === 'object') {
@@ -30,7 +33,7 @@ export default function Comidas() {
       return (
         <div>
           <Header title="Bebidas" search />
-          { history.push(`/bebidas/${requestApi.drinks[0].idDrink}`) }
+          {history.push(`/bebidas/${requestApi.drinks[0].idDrink}`)}
         </div>
 
       );
@@ -39,6 +42,7 @@ export default function Comidas() {
       return (
         <div>
           <Header title="Bebidas" search />
+          {btnCategory ? <BtnFilter /> : '' }
           <CardsBebidas />
         </div>
       );
