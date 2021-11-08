@@ -1,15 +1,36 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
-export default function ExplorarBebidas() {
+export default function ExplorarBebidas({ history }) {
   return (
     <div>
       <Header title="Explorar Bebidas" />
       <div>
-        <h1> Aqui estará o conteúdo da página</h1>
+        <button
+          type="button"
+          data-testid="explore-by-ingredient"
+          onClick={ () => {
+            history.push('/explorar/bebidas/ingredientes');
+          } }
+        >
+          Por Ingredientes
+        </button>
+        <button
+          type="button"
+          data-testid="explore-surprise"
+        >
+          Me Surpreenda!
+        </button>
       </div>
       <Footer />
     </div>
   );
 }
+
+ExplorarBebidas.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
