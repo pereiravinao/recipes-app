@@ -7,7 +7,18 @@ export default function ExplorarBebidas() {
     <div>
       <Header title="Explorar Bebidas" />
       <div>
-        <h1> Aqui estará o conteúdo da página</h1>
+        <button
+          type="button"
+          data-testid="explore-by-ingredient"
+        >
+          Por Ingredientes
+        </button>
+        <button
+          type="button"
+          data-testid="explore-surprise"
+        >
+          Me Surpreenda!
+        </button>
       </div>
       <Footer />
     </div>
