@@ -65,6 +65,7 @@ export default function DetalhesReceitas() {
               <button
                 type="button"
                 data-testid="start-recipe-btn"
+                style={ { position: 'fixed', bottom: '0px' } }
               >
                 Iniciar Receita
 
