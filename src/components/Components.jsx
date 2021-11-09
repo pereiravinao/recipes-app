@@ -38,6 +38,7 @@ export default function Components() {
       <Route path="/explorar/bebidas/ingredientes" component={ ExplorarIngredientes } />
 
       <Route path="/explorar/comidas/area" component={ ExplorarComidasArea } />
+      <Route path="/explorar/bebidas/area" render={ () => 'Not Found' } />
 
       <Route path="/perfil" component={ Perfil } />
       <Route path="/receitas-feitas" component={ ReceitasProntas } />
