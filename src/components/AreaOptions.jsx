@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 export default function AreaOptions({ list }) {
   return (
     <>
+      <option value="All" data-testid="All-option">All</option>
       { list.map(({ strArea }, key) => (
         <option
           key={ key }

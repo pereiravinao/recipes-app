@@ -37,10 +37,19 @@ export default function ExplorarComidasArea() {
   }, []);
 
   function handleSelectChange({ target: { value } }) {
-    apiFiltraPorArea(value)
-      .then((results) => {
-        setRequestApi(results);
-      });
+    if (value !== 'All') {
+      apiFiltraPorArea(value)
+        .then((results) => {
+          setRequestApi(results);
+        });
+    }
+
+    if (value === 'All') {
+      apiNome('', '/comidas')
+        .then((results) => {
+          setRequestApi(results);
+        });
+    }
   }
 
   return (
