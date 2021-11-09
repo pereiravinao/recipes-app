@@ -18,8 +18,8 @@ export default function Components() {
   return (
     <Switch>
 
-      <Route path="/comidas/:id" component={ DetalhesReceitas } />
-      <Route path="/bebidas/:id" component={ DetalhesReceitas } />
+      <Route exact path="/comidas/:id" component={ DetalhesReceitas } />
+      <Route exact path="/bebidas/:id" component={ DetalhesReceitas } />
 
       <Route
         path="/comidas/:id/in-progress"

@@ -10,6 +10,11 @@ export default function DetalhesBebidas() {
   const location = useLocation().pathname.replace('/bebidas/', '');
 
   const [copied, setCopied] = useState(false);
+
+  const receitaIniciada = JSON.parse(localStorage
+    .getItem('inProgressRecipes')) || { cocktails: '' };
+  const idStorage = Object.keys(receitaIniciada.cocktails)[0];
+
   const quantidades = !receitaDetalhes ? [] : Object.entries(receitaDetalhes.drinks[0])
     .filter((e) => e[0].includes('strMeasure'))
     .filter((i) => i[1] !== null).map((ing) => ing[1]);
@@ -42,6 +47,18 @@ export default function DetalhesBebidas() {
   function handleClick(id) {
     navigator.clipboard.writeText(`http://localhost:3000/bebidas/${id}`);
     setCopied(true);
+  }
+
+  function saveStorageinProgressRecipes(recipe) {
+    const storageRecipesInProgress = {
+      cocktails: {
+        [recipe]: [],
+      },
+      meals: {
+        idMeal: [],
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(storageRecipesInProgress));
   }
 
   useEffect(() => {
@@ -99,8 +116,10 @@ export default function DetalhesBebidas() {
                   type="button"
                   data-testid="start-recipe-btn"
                   style={ { position: 'fixed', bottom: '0px' } }
+                  onClick={ () => saveStorageinProgressRecipes(receita.idDrink) }
                 >
-                  Iniciar Receita
+                  { idStorage === receita.idDrink
+                    ? 'Continuar Receita' : 'Iniciar Receita'}
 
                 </button>
               </Link>
