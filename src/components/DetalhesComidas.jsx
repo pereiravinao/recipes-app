@@ -1,10 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Player } from 'video-react';
 import Context from '../context/Context';
+import { apiReceitaRecomendada } from '../services/RequestApi';
 
 export default function DetalhesReceitas() {
   const { requestApi } = useContext(Context);
+  const [bebidaRecomendada, setBebidaRecomendada] = useState();
+  console.log(bebidaRecomendada);
+
   const quantidades = !requestApi ? '' : Object.entries(requestApi.meals[0])
     .filter((e) => e[0].includes('strMeasure'))
     .filter((i) => i[1] !== ' ').map((ing) => ing[1]);
@@ -12,6 +16,11 @@ export default function DetalhesReceitas() {
   const ingredients = !requestApi ? '' : Object.entries(requestApi.meals[0])
     .filter((e) => e[0].includes('strIngredient'))
     .filter((i) => i[1] !== '').map((ing) => ing[1]);
+
+  useEffect(() => {
+    apiReceitaRecomendada('recomendaBebida')
+      .then((results) => setBebidaRecomendada(results));
+  }, []);
 
   return (
     <div>

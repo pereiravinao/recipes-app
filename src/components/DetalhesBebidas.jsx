@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Context from '../context/Context';
+import { apiReceitaRecomendada } from '../services/RequestApi';
 
 export default function DetalhesReceitas() {
   const { requestApi } = useContext(Context);
-  console.log(requestApi);
+  const [comidaRecomendada, setComidaRecomendada] = useState();
+  console.log(comidaRecomendada);
   const quantidades = !requestApi ? '' : Object.entries(requestApi.drinks[0])
     .filter((e) => e[0].includes('strMeasure'))
     .filter((i) => i[1] !== null).map((ing) => ing[1]);
@@ -12,6 +14,11 @@ export default function DetalhesReceitas() {
   const ingredients = !requestApi ? '' : Object.entries(requestApi.drinks[0])
     .filter((e) => e[0].includes('strIngredient'))
     .filter((i) => i[1] !== null).map((ing) => ing[1]);
+
+  useEffect(() => {
+    apiReceitaRecomendada('recomendaComida')
+      .then((results) => setComidaRecomendada(results));
+  }, []);
 
   return (
     <div>
