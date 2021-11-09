@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { apiReceitaID } from '../services/RequestApi';
+import Ingredientes from './Bebidas/Ingredientes';
+import BtnIniciarReceita from './Bebidas/BtnIniciarReceita';
 
 import shareIcon from '../images/shareIcon.svg';
 import ComidaRecomendada from './ComidaRecomendada';
@@ -11,17 +13,10 @@ export default function DetalhesBebidas() {
 
   const [copied, setCopied] = useState(false);
 
-  const receitaIniciada = JSON.parse(localStorage
-    .getItem('inProgressRecipes')) || { cocktails: '' };
-  const idStorage = Object.keys(receitaIniciada.cocktails)[0];
-
-  const quantidades = !receitaDetalhes ? [] : Object.entries(receitaDetalhes.drinks[0])
-    .filter((e) => e[0].includes('strMeasure'))
-    .filter((i) => i[1] !== null).map((ing) => ing[1]);
-
-  const ingredients = !receitaDetalhes ? [] : Object.entries(receitaDetalhes.drinks[0])
-    .filter((e) => e[0].includes('strIngredient'))
-    .filter((i) => i[1] !== null).map((ing) => ing[1]);
+  useEffect(() => {
+    apiReceitaID(location, '/bebidas').then((res) => setReceitaDetalhes(res));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function saveFavoriteToLocalStorage(recipe) {
     let favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -49,29 +44,12 @@ export default function DetalhesBebidas() {
     setCopied(true);
   }
 
-  function saveStorageinProgressRecipes(recipe) {
-    const storageRecipesInProgress = {
-      cocktails: {
-        [recipe]: [],
-      },
-      meals: {
-        idMeal: [],
-      },
-    };
-    localStorage.setItem('inProgressRecipes', JSON.stringify(storageRecipesInProgress));
-  }
-
-  useEffect(() => {
-    apiReceitaID(location, '/bebidas').then((res) => setReceitaDetalhes(res));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div>
       { !receitaDetalhes
         ? <Link to="/comidas">Voltar</Link>
         : receitaDetalhes.drinks
-          .map((receita, idx) => (
+          .map((receita) => (
             <div key={ receita.idDrink }>
               <img
                 data-testid="recipe-photo"
@@ -97,32 +75,13 @@ export default function DetalhesBebidas() {
               { copied ? 'Link copiado!' : ''}
               <h6 data-testid="recipe-category">{ receita.strAlcoholic}</h6>
               <h6 data-testid="recipe-category">{ receita.strCategory}</h6>
-              <ul data-testid={ `${idx}-ingredient-name-and-measure` }>
-                Ingredientes:
-                { ingredients
-                  .map((ing, i) => (
-                    <li
-                      data-testid={ `${i}-ingredient-name-and-measure` }
-                      key={ i }
-                    >
-                      {`${ing} - ${quantidades[i]}`}
 
-                    </li>))}
-              </ul>
+              <Ingredientes receitaDetalhes={ receitaDetalhes } />
+
               <p data-testid="instructions">{ receita.strInstructions }</p>
               <ComidaRecomendada recomenda="recomendaComida" />
-              <Link to={ `/bebidas/${receita.idDrink}/in-progress` }>
-                <button
-                  type="button"
-                  data-testid="start-recipe-btn"
-                  style={ { position: 'fixed', bottom: '0px' } }
-                  onClick={ () => saveStorageinProgressRecipes(receita.idDrink) }
-                >
-                  { idStorage === receita.idDrink
-                    ? 'Continuar Receita' : 'Iniciar Receita'}
+              <BtnIniciarReceita receita={ receita } />
 
-                </button>
-              </Link>
             </div>
           )) }
     </div>
