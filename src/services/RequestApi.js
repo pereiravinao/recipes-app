@@ -76,6 +76,19 @@ export const apiListaIngredientes = async (type) => {
   }
 };
 
+export const apiListaAreas = async (type) => {
+  if (type === 'comida') {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list');
+    const resultsApiIngredientes = await response.json();
+    return resultsApiIngredientes;
+  }
+  if (type === 'bebida') {
+    const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?a=list');
+    const resultsApiIngredientes = await response.json();
+    return resultsApiIngredientes;
+  }
+};
+
 export const apiReceitaID = async (id, page) => {
   if (page.includes('/comidas')) {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
@@ -100,4 +113,10 @@ export const apiReceitaRecomendada = async (recomend) => {
     const resultsReceitaRecomendada = await response.json();
     return resultsReceitaRecomendada;
   }
+};
+
+export const apiFiltraPorArea = async (area) => {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`);
+  const resultsApiArea = await response.json();
+  return resultsApiArea;
 };
