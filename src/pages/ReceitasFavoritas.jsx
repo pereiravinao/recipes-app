@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -6,6 +6,14 @@ import shareIcon from '../images/shareIcon.svg';
 
 export default function ReceitasFavoritas() {
   const [copyStatus, setCopyStatus] = useState(false);
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    let favoriteRecipesFromLocalStorage = JSON
+      .parse(localStorage.getItem('favoriteRecipes'));
+    if (favoriteRecipesFromLocalStorage === null) favoriteRecipesFromLocalStorage = [];
+    setRecipes(favoriteRecipesFromLocalStorage);
+  }, []);
 
   async function shareAction(link) {
     console.log('Copiou');
@@ -21,13 +29,10 @@ export default function ReceitasFavoritas() {
     console.log(favoriteRecipes);
     localStorage.setItem('favoriteRecipes',
       JSON.stringify(favoriteRecipes));
+    setRecipes(favoriteRecipes);
   }
 
-  function renderFavoriteRecipes() {
-    let favoriteRecipes = JSON
-      .parse(localStorage.getItem('favoriteRecipes'));
-    if (favoriteRecipes === null) favoriteRecipes = [];
-    console.log(favoriteRecipes);
+  function renderFavoriteRecipes(favoriteRecipes) {
     if (favoriteRecipes.length > 0) {
       return (
         favoriteRecipes.map((recipe, index) => {
@@ -114,13 +119,14 @@ export default function ReceitasFavoritas() {
       );
     }
   }
+
   return (
     <div>
       <Header title="Receitas Favoritas" />
       <button type="button" data-testid="filter-by-all-btn">All</button>
       <button type="button" data-testid="filter-by-food-btn">Food</button>
       <button type="button" data-testid="filter-by-drink-btn">Drinks</button>
-      { renderFavoriteRecipes() }
+      { renderFavoriteRecipes(recipes) }
       { copyStatus ? <h2>Link copiado!</h2> : '' }
     </div>
   );
