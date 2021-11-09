@@ -10,6 +10,9 @@ export default function DetalhesComidas() {
   const [receitaDetalhes, setReceitaDetalhes] = useState();
   const location = useLocation().pathname.replace('/comidas/', '');
   const [copied, setCopied] = useState(false);
+  const receitaIniciada = JSON.parse(localStorage
+    .getItem('inProgressRecipes')) || { meals: '' };
+  const idStorage = Object.keys(receitaIniciada.meals)[0];
 
   const quantidades = !receitaDetalhes ? [] : Object.entries(receitaDetalhes.meals[0])
     .filter((e) => e[0].includes('strMeasure'))
@@ -43,6 +46,18 @@ export default function DetalhesComidas() {
     };
     localStorage.setItem('favoriteRecipes',
       JSON.stringify([...favoriteRecipes, newFavoriteRecipe]));
+  }
+
+  function saveStorageinProgressRecipes(recipe) {
+    const storageRecipesInProgress = {
+      cocktails: {
+        idDrink: [],
+      },
+      meals: {
+        [recipe]: [],
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(storageRecipesInProgress));
   }
 
   function handleClick(id) {
@@ -107,8 +122,10 @@ export default function DetalhesComidas() {
                   type="button"
                   data-testid="start-recipe-btn"
                   style={ { position: 'fixed', bottom: '0px' } }
+                  onClick={ () => saveStorageinProgressRecipes(receita.idMeal) }
                 >
-                  Iniciar Receita
+                  { idStorage === receita.idMeal
+                    ? 'Continuar Receita' : 'Iniciar Receita'}
 
                 </button>
               </Link>
