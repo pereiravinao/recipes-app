@@ -1,10 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Player } from 'video-react';
 import Context from '../context/Context';
+import { apiReceitaRecomendada } from '../services/RequestApi';
 
 export default function DetalhesReceitas() {
   const { requestApi } = useContext(Context);
+  const [bebidaRecomendada, setBebidaRecomendada] = useState();
+  console.log(bebidaRecomendada);
+
+  const quantidades = !requestApi ? '' : Object.entries(requestApi.meals[0])
+    .filter((e) => e[0].includes('strMeasure'))
+    .filter((i) => i[1] !== ' ').map((ing) => ing[1]);
+
+  const ingredients = !requestApi ? '' : Object.entries(requestApi.meals[0])
+    .filter((e) => e[0].includes('strIngredient'))
+    .filter((i) => i[1] !== '').map((ing) => ing[1]);
+
+  useEffect(() => {
+    apiReceitaRecomendada('recomendaBebida')
+      .then((results) => setBebidaRecomendada(results));
+  }, []);
 
   function saveFavoriteToLocalStorage(recipe) {
     let favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -51,27 +67,39 @@ export default function DetalhesReceitas() {
 
               </button>
               <h6 data-testid="recipe-category">{ receita.strCategory}</h6>
-              <ul data-testid={ `${idx}-ingredient-name-and-measure` }>
+              <ul>
                 Ingredientes:
+                { ingredients
+                  .map((ing, i) => (
+                    <li
+                      data-testid={ `${i}-ingredient-name-and-measure` }
+                      key={ i }
+                    >
+                      {`${ing} - ${quantidades[i]}`}
+
+                    </li>))}
               </ul>
               <p data-testid="instructions">{ receita.strInstructions }</p>
-              <div data-testid="video">
+              <div style={ { width: '10px' } } data-testid="video">
                 <Player
                   playsInline
                   src={ receita.strYoutube }
-                  poster={ receita.strMealThumb }
+                  // poster={ receita.strMealThumb }
                 />
               </div>
               <div data-testid={ `${idx}-recomendation-card` }>
                 Receitas Recomendads
               </div>
-              <button
-                type="button"
-                data-testid="start-recipe-btn"
-              >
-                Iniciar Receita
+              <Link to={ `/comidas/${receita.idMeal}/in-progress` }>
+                <button
+                  type="button"
+                  data-testid="start-recipe-btn"
+                  style={ { position: 'fixed', bottom: '0px' } }
+                >
+                  Iniciar Receita
 
-              </button>
+                </button>
+              </Link>
             </div>
           )) }
     </div>

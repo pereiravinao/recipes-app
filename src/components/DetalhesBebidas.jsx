@@ -1,9 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Context from '../context/Context';
+import { apiReceitaRecomendada } from '../services/RequestApi';
 
 export default function DetalhesReceitas() {
   const { requestApi } = useContext(Context);
+  const [comidaRecomendada, setComidaRecomendada] = useState();
+  console.log(comidaRecomendada);
+  const quantidades = !requestApi ? '' : Object.entries(requestApi.drinks[0])
+    .filter((e) => e[0].includes('strMeasure'))
+    .filter((i) => i[1] !== null).map((ing) => ing[1]);
+
+  const ingredients = !requestApi ? '' : Object.entries(requestApi.drinks[0])
+    .filter((e) => e[0].includes('strIngredient'))
+    .filter((i) => i[1] !== null).map((ing) => ing[1]);
+
+  useEffect(() => {
+    apiReceitaRecomendada('recomendaComida')
+      .then((results) => setComidaRecomendada(results));
+  }, []);
 
   function saveFavoriteToLocalStorage(recipe) {
     let favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -41,29 +56,43 @@ export default function DetalhesReceitas() {
               />
               <h4 data-testid="recipe-title">{ receita.strDrink }</h4>
               <button type="button" data-testid="share-btn">Compartilhar</button>
+              <button type="button" data-testid="favorite-btn">Favoritar</button>
+              <h6 data-testid="recipe-category">{ receita.strAlcoholic}</h6>
+              <ul>
               <button
                 type="button"
                 data-testid="favorite-btn"
                 onClick={ () => saveFavoriteToLocalStorage(receita) }
               >
                 Favoritar
-
               </button>
               <h6 data-testid="recipe-category">{ receita.strCategory}</h6>
               <ul data-testid={ `${idx}-ingredient-name-and-measure` }>
                 Ingredientes:
+                { ingredients
+                  .map((ing, i) => (
+                    <li
+                      data-testid={ `${i}-ingredient-name-and-measure` }
+                      key={ i }
+                    >
+                      {`${ing} - ${quantidades[i]}`}
+
+                    </li>))}
               </ul>
               <p data-testid="instructions">{ receita.strInstructions }</p>
               <div data-testid={ `${idx}-recomendation-card` }>
                 Receitas Recomendads
               </div>
-              <button
-                type="button"
-                data-testid="start-recipe-btn"
-              >
-                Iniciar Receita
+              <Link to={ `/bebidas/${receita.idDrink}/in-progress` }>
+                <button
+                  type="button"
+                  data-testid="start-recipe-btn"
+                  style={ { position: 'fixed', bottom: '0px' } }
+                >
+                  Iniciar Receita
 
-              </button>
+                </button>
+              </Link>
             </div>
           )) }
     </div>

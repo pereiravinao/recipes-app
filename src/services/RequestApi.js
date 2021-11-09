@@ -88,3 +88,16 @@ export const apiReceitaID = async (id, page) => {
     return resultsApiID;
   }
 };
+
+export const apiReceitaRecomendada = async (recomend) => {
+  if (recomend.includes('recomendaComida')) {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    const resultsReceitaRecomendada = await response.json();
+    return resultsReceitaRecomendada;
+  }
+  if (recomend.includes('recomendaBebida')) {
+    const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    const resultsReceitaRecomendada = await response.json();
+    return resultsReceitaRecomendada;
+  }
+};
