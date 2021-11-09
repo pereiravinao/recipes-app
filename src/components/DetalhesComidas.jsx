@@ -5,6 +5,13 @@ import Context from '../context/Context';
 
 export default function DetalhesReceitas() {
   const { requestApi } = useContext(Context);
+  const quantidades = !requestApi ? '' : Object.entries(requestApi.meals[0])
+    .filter((e) => e[0].includes('strMeasure'))
+    .filter((i) => i[1] !== ' ').map((ing) => ing[1]);
+
+  const ingredients = !requestApi ? '' : Object.entries(requestApi.meals[0])
+    .filter((e) => e[0].includes('strIngredient'))
+    .filter((i) => i[1] !== '').map((ing) => ing[1]);
 
   return (
     <div>
@@ -23,15 +30,24 @@ export default function DetalhesReceitas() {
               <button type="button" data-testid="share-btn">Compartilhar</button>
               <button type="button" data-testid="favorite-btn">Favoritar</button>
               <h6 data-testid="recipe-category">{ receita.strCategory}</h6>
-              <ul data-testid={ `${idx}-ingredient-name-and-measure` }>
+              <ul>
                 Ingredientes:
+                { ingredients
+                  .map((ing, i) => (
+                    <li
+                      data-testid={ `${i}-ingredient-name-and-measure` }
+                      key={ i }
+                    >
+                      {`${ing} - ${quantidades[i]}`}
+
+                    </li>))}
               </ul>
               <p data-testid="instructions">{ receita.strInstructions }</p>
-              <div data-testid="video">
+              <div style={ { width: '10px' } } data-testid="video">
                 <Player
                   playsInline
                   src={ receita.strYoutube }
-                  poster={ receita.strMealThumb }
+                  // poster={ receita.strMealThumb }
                 />
               </div>
               <div data-testid={ `${idx}-recomendation-card` }>
