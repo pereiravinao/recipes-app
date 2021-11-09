@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import '../Style/Styles.css';
 
 import { apiReceitaRecomendada } from '../services/RequestApi';
 
@@ -26,6 +25,7 @@ export default function ReceitasRecomendadas() {
           .map((receita, idx) => (
             <button
               type="button"
+              style={ idx > pagina ? { display: 'none' } : {} }
               data-testid={ `${idx}-recomendation-card` }
               key={ idx }
               onClick={ () => history.push(`/bebidas/${receita.idDrink}`) }
