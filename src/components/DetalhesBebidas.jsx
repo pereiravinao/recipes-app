@@ -1,26 +1,22 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Context from '../context/Context';
-import { apiReceitaRecomendada } from '../services/RequestApi';
-import shareIcon from '../images/shareIcon.svg';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { apiReceitaID } from '../services/RequestApi';
 
-export default function DetalhesReceitas() {
-  const { requestApi } = useContext(Context);
-  const [comidaRecomendada, setComidaRecomendada] = useState();
+import shareIcon from '../images/shareIcon.svg';
+import ComidaRecomendada from './ComidaRecomendada';
+
+export default function DetalhesBebidas() {
+  const [receitaDetalhes, setReceitaDetalhes] = useState();
+  const location = useLocation().pathname.replace('/bebidas/', '');
+
   const [copied, setCopied] = useState(false);
-  console.log(comidaRecomendada);
-  const quantidades = !requestApi ? [] : Object.entries(requestApi.drinks[0])
+  const quantidades = !receitaDetalhes ? [] : Object.entries(receitaDetalhes.drinks[0])
     .filter((e) => e[0].includes('strMeasure'))
     .filter((i) => i[1] !== null).map((ing) => ing[1]);
 
-  const ingredients = !requestApi ? [] : Object.entries(requestApi.drinks[0])
+  const ingredients = !receitaDetalhes ? [] : Object.entries(receitaDetalhes.drinks[0])
     .filter((e) => e[0].includes('strIngredient'))
     .filter((i) => i[1] !== null).map((ing) => ing[1]);
-
-  useEffect(() => {
-    apiReceitaRecomendada('recomendaComida')
-      .then((results) => setComidaRecomendada(results));
-  }, []);
 
   function saveFavoriteToLocalStorage(recipe) {
     let favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -48,11 +44,16 @@ export default function DetalhesReceitas() {
     setCopied(true);
   }
 
+  useEffect(() => {
+    apiReceitaID(location, '/bebidas').then((res) => setReceitaDetalhes(res));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
-      { !requestApi
+      { !receitaDetalhes
         ? <Link to="/comidas">Voltar</Link>
-        : requestApi.drinks
+        : receitaDetalhes.drinks
           .map((receita, idx) => (
             <div key={ receita.idDrink }>
               <img
@@ -92,9 +93,7 @@ export default function DetalhesReceitas() {
                     </li>))}
               </ul>
               <p data-testid="instructions">{ receita.strInstructions }</p>
-              <div data-testid={ `${idx}-recomendation-card` }>
-                Receitas Recomendads
-              </div>
+              <ComidaRecomendada recomenda="recomendaComida" />
               <Link to={ `/bebidas/${receita.idDrink}/in-progress` }>
                 <button
                   type="button"
