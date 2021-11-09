@@ -22,6 +22,27 @@ export default function DetalhesReceitas() {
       .then((results) => setBebidaRecomendada(results));
   }, []);
 
+  function saveFavoriteToLocalStorage(recipe) {
+    let favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (favoriteRecipes === null) {
+      favoriteRecipes = [];
+    }
+    const isFavoritedAlready = favoriteRecipes
+      .some((favRecipes) => favRecipes.id === recipe.idMeal);
+    if (isFavoritedAlready) return favoriteRecipes;
+    const newFavoriteRecipe = {
+      id: recipe.idMeal,
+      type: 'comida',
+      area: recipe.strArea,
+      category: recipe.strCategory,
+      alcoholicOrNot: '',
+      name: recipe.strMeal,
+      image: recipe.strMealThumb,
+    };
+    localStorage.setItem('favoriteRecipes',
+      JSON.stringify([...favoriteRecipes, newFavoriteRecipe]));
+  }
+
   return (
     <div>
       { !requestApi
@@ -37,7 +58,14 @@ export default function DetalhesReceitas() {
               />
               <h4 data-testid="recipe-title">{ receita.strMeal }</h4>
               <button type="button" data-testid="share-btn">Compartilhar</button>
-              <button type="button" data-testid="favorite-btn">Favoritar</button>
+              <button
+                type="button"
+                data-testid="favorite-btn"
+                onClick={ () => saveFavoriteToLocalStorage(receita) }
+              >
+                Favoritar
+
+              </button>
               <h6 data-testid="recipe-category">{ receita.strCategory}</h6>
               <ul>
                 Ingredientes:
