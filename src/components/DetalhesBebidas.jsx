@@ -2,16 +2,18 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Context from '../context/Context';
 import { apiReceitaRecomendada } from '../services/RequestApi';
+import shareIcon from '../images/shareIcon.svg';
 
 export default function DetalhesReceitas() {
   const { requestApi } = useContext(Context);
   const [comidaRecomendada, setComidaRecomendada] = useState();
+  const [copied, setCopied] = useState(false);
   console.log(comidaRecomendada);
-  const quantidades = !requestApi ? '' : Object.entries(requestApi.drinks[0])
+  const quantidades = !requestApi ? [] : Object.entries(requestApi.drinks[0])
     .filter((e) => e[0].includes('strMeasure'))
     .filter((i) => i[1] !== null).map((ing) => ing[1]);
 
-  const ingredients = !requestApi ? '' : Object.entries(requestApi.drinks[0])
+  const ingredients = !requestApi ? [] : Object.entries(requestApi.drinks[0])
     .filter((e) => e[0].includes('strIngredient'))
     .filter((i) => i[1] !== null).map((ing) => ing[1]);
 
@@ -41,6 +43,11 @@ export default function DetalhesReceitas() {
       JSON.stringify([...favoriteRecipes, newFavoriteRecipe]));
   }
 
+  function handleClick(id) {
+    navigator.clipboard.writeText(`http://localhost:3000/bebidas/${id}`);
+    setCopied(true);
+  }
+
   return (
     <div>
       { !requestApi
@@ -55,9 +62,13 @@ export default function DetalhesReceitas() {
                 alt={ receita.strDrink }
               />
               <h4 data-testid="recipe-title">{ receita.strDrink }</h4>
-              <button type="button" data-testid="share-btn">Compartilhar</button>
-              <button type="button" data-testid="favorite-btn">Favoritar</button>
-              <h6 data-testid="recipe-category">{ receita.strAlcoholic}</h6>
+              <button
+                type="button"
+                data-testid="share-btn"
+                onClick={ () => { handleClick(receita.idDrink); } }
+              >
+                <img src={ shareIcon } alt="Compartilhar" />
+              </button>
               <button
                 type="button"
                 data-testid="favorite-btn"
@@ -65,6 +76,8 @@ export default function DetalhesReceitas() {
               >
                 Favoritar
               </button>
+              { copied ? 'Link copiado!' : ''}
+              <h6 data-testid="recipe-category">{ receita.strAlcoholic}</h6>
               <h6 data-testid="recipe-category">{ receita.strCategory}</h6>
               <ul data-testid={ `${idx}-ingredient-name-and-measure` }>
                 Ingredientes:

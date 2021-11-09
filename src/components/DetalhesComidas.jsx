@@ -3,17 +3,19 @@ import { Link } from 'react-router-dom';
 import { Player } from 'video-react';
 import Context from '../context/Context';
 import { apiReceitaRecomendada } from '../services/RequestApi';
+import shareIcon from '../images/shareIcon.svg';
 
 export default function DetalhesReceitas() {
   const { requestApi } = useContext(Context);
   const [bebidaRecomendada, setBebidaRecomendada] = useState();
+  const [copied, setCopied] = useState(false);
   console.log(bebidaRecomendada);
 
-  const quantidades = !requestApi ? '' : Object.entries(requestApi.meals[0])
+  const quantidades = !requestApi ? [] : Object.entries(requestApi.meals[0])
     .filter((e) => e[0].includes('strMeasure'))
     .filter((i) => i[1] !== ' ').map((ing) => ing[1]);
 
-  const ingredients = !requestApi ? '' : Object.entries(requestApi.meals[0])
+  const ingredients = !requestApi ? [] : Object.entries(requestApi.meals[0])
     .filter((e) => e[0].includes('strIngredient'))
     .filter((i) => i[1] !== '').map((ing) => ing[1]);
 
@@ -43,6 +45,11 @@ export default function DetalhesReceitas() {
       JSON.stringify([...favoriteRecipes, newFavoriteRecipe]));
   }
 
+  function handleClick(id) {
+    navigator.clipboard.writeText(`http://localhost:3000/comidas/${id}`);
+    setCopied(true);
+  }
+
   return (
     <div>
       { !requestApi
@@ -57,7 +64,13 @@ export default function DetalhesReceitas() {
                 alt={ receita.strMeal }
               />
               <h4 data-testid="recipe-title">{ receita.strMeal }</h4>
-              <button type="button" data-testid="share-btn">Compartilhar</button>
+              <button
+                type="button"
+                data-testid="share-btn"
+                onClick={ () => { handleClick(receita.idMeal); } }
+              >
+                <img src={ shareIcon } alt="Compartilhar" />
+              </button>
               <button
                 type="button"
                 data-testid="favorite-btn"
@@ -66,6 +79,7 @@ export default function DetalhesReceitas() {
                 Favoritar
 
               </button>
+              { copied ? 'Link copiado!' : ''}
               <h6 data-testid="recipe-category">{ receita.strCategory}</h6>
               <ul>
                 Ingredientes:
