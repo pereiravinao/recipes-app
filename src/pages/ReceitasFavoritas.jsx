@@ -7,12 +7,14 @@ import shareIcon from '../images/shareIcon.svg';
 export default function ReceitasFavoritas() {
   const [copyStatus, setCopyStatus] = useState(false);
   const [recipes, setRecipes] = useState([]);
+  const [allRecipes, setAllRecipes] = useState([]);
 
   useEffect(() => {
     let favoriteRecipesFromLocalStorage = JSON
       .parse(localStorage.getItem('favoriteRecipes'));
     if (favoriteRecipesFromLocalStorage === null) favoriteRecipesFromLocalStorage = [];
     setRecipes(favoriteRecipesFromLocalStorage);
+    setAllRecipes(favoriteRecipesFromLocalStorage);
   }, []);
 
   async function shareAction(link) {
@@ -120,12 +122,47 @@ export default function ReceitasFavoritas() {
     }
   }
 
+  function renderAllRecipes() {
+    setRecipes(allRecipes);
+  }
+
+  function renderOnlyMeals() {
+    const filterMeals = allRecipes.filter((item) => item.type === 'comida');
+    setRecipes(filterMeals);
+  }
+
+  function renderOnlyDrinks() {
+    const filterDrinks = allRecipes.filter((item) => item.type === 'bebida');
+    setRecipes(filterDrinks);
+  }
+
   return (
     <div>
       <Header title="Receitas Favoritas" />
-      <button type="button" data-testid="filter-by-all-btn">All</button>
-      <button type="button" data-testid="filter-by-food-btn">Food</button>
-      <button type="button" data-testid="filter-by-drink-btn">Drinks</button>
+      <button
+        type="button"
+        data-testid="filter-by-all-btn"
+        onClick={ () => renderAllRecipes() }
+      >
+        All
+
+      </button>
+      <button
+        type="button"
+        data-testid="filter-by-food-btn"
+        onClick={ () => renderOnlyMeals() }
+      >
+        Food
+
+      </button>
+      <button
+        type="button"
+        data-testid="filter-by-drink-btn"
+        onClick={ () => renderOnlyDrinks() }
+      >
+        Drinks
+
+      </button>
       { renderFavoriteRecipes(recipes) }
       { copyStatus ? <h2>Link copiado!</h2> : '' }
     </div>
