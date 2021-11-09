@@ -14,14 +14,17 @@ export default function Comidas() {
     setBtnCategory,
     btnCategory,
     redirectDisable,
+    loadFirstTime,
   } = useContext(Context);
   const history = useHistory();
 
   useEffect(() => {
-    apiNome('', '/bebidas')
-      .then((results) => setRequestApi(results));
-    filtroBtnCategorias('thecocktaildb')
-      .then((results) => setBtnCategory(results.drinks));
+    if (loadFirstTime) {
+      apiNome('', '/bebidas')
+        .then((results) => setRequestApi(results));
+      filtroBtnCategorias('thecocktaildb')
+        .then((results) => setBtnCategory(results.drinks));
+    }
   }, []);
 
   if (typeof requestApi === 'object') {
