@@ -53,14 +53,16 @@ export default function DetalhesReceitas() {
               <div data-testid={ `${idx}-recomendation-card` }>
                 Receitas Recomendads
               </div>
-              <button
-                type="button"
-                data-testid="start-recipe-btn"
-                style={ { position: 'fixed', bottom: '0px' } }
-              >
-                Iniciar Receita
+              <Link to={ `/bebidas/${receita.idDrink}/in-progress` }>
+                <button
+                  type="button"
+                  data-testid="start-recipe-btn"
+                  style={ { position: 'fixed', bottom: '0px' } }
+                >
+                  Iniciar Receita
 
-              </button>
+                </button>
+              </Link>
             </div>
           )) }
     </div>
