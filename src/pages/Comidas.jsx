@@ -15,14 +15,17 @@ export default function Comidas() {
     btnCategory,
     setBtnCategory,
     redirectDisable,
+    loadFirstTime,
   } = useContext(Context);
   const history = useHistory();
 
   useEffect(() => {
-    apiNome('', '/comidas')
-      .then((results) => setRequestApi(results));
-    filtroBtnCategorias('themealdb')
-      .then((results) => setBtnCategory(results.meals));
+    if (loadFirstTime) {
+      apiNome('', '/comidas')
+        .then((results) => setRequestApi(results));
+      filtroBtnCategorias('themealdb')
+        .then((results) => setBtnCategory(results.meals));
+    }
   }, []);
 
   if (typeof requestApi === 'object') {

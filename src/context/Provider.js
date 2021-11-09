@@ -6,6 +6,7 @@ export default function Provider({ children }) {
   const [requestApi, setRequestApi] = useState();
   const [btnCategory, setBtnCategory] = useState('');
   const [redirectDisable, setRedirectDisable] = useState(false);
+  const [loadFirstTime, setLoadFirstTime] = useState(true);
 
   const context = {
     requestApi,
@@ -14,6 +15,8 @@ export default function Provider({ children }) {
     setBtnCategory,
     redirectDisable,
     setRedirectDisable,
+    loadFirstTime,
+    setLoadFirstTime,
   };
   return (
 
