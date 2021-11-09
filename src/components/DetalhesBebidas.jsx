@@ -4,6 +4,28 @@ import Context from '../context/Context';
 
 export default function DetalhesReceitas() {
   const { requestApi } = useContext(Context);
+
+  function saveFavoriteToLocalStorage(recipe) {
+    let favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (favoriteRecipes === null) {
+      favoriteRecipes = [];
+    }
+    const isFavoritedAlready = favoriteRecipes
+      .some((favRecipes) => favRecipes.id === recipe.idDrink);
+    if (isFavoritedAlready) return favoriteRecipes;
+    const newFavoriteRecipe = {
+      id: recipe.idDrink,
+      type: 'bebida',
+      area: '',
+      category: recipe.strCategory,
+      alcoholicOrNot: recipe.strAlcoholic,
+      name: recipe.strDrink,
+      image: recipe.strDrinkThumb,
+    };
+    localStorage.setItem('favoriteRecipes',
+      JSON.stringify([...favoriteRecipes, newFavoriteRecipe]));
+  }
+
   return (
     <div>
       { !requestApi
@@ -19,7 +41,14 @@ export default function DetalhesReceitas() {
               />
               <h4 data-testid="recipe-title">{ receita.strDrink }</h4>
               <button type="button" data-testid="share-btn">Compartilhar</button>
-              <button type="button" data-testid="favorite-btn">Favoritar</button>
+              <button
+                type="button"
+                data-testid="favorite-btn"
+                onClick={ () => saveFavoriteToLocalStorage(receita) }
+              >
+                Favoritar
+
+              </button>
               <h6 data-testid="recipe-category">{ receita.strCategory}</h6>
               <ul data-testid={ `${idx}-ingredient-name-and-measure` }>
                 Ingredientes:
