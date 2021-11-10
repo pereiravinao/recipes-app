@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import ComidaRecomendada from './ComidaRecomendada';
 import { apiReceitaID } from '../services/RequestApi';
+
 import Ingredientes from './Bebidas/Ingredientes';
 import BtnIniciarReceita from './Bebidas/BtnIniciarReceita';
-
-import ComidaRecomendada from './ComidaRecomendada';
 import Compartilhar from './Botoes/Compartilhar';
 import FavoritarBebidas from './Botoes/FavoritarBebidas';
 
@@ -17,7 +17,6 @@ export default function DetalhesBebidas() {
     apiReceitaID(location, '/bebidas').then((res) => setReceitaDetalhes(res));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <div>
       { !receitaDetalhes
@@ -42,6 +41,7 @@ export default function DetalhesBebidas() {
 
               <p data-testid="instructions">{ receita.strInstructions }</p>
               <ComidaRecomendada recomenda="recomendaComida" />
+
               <BtnIniciarReceita receita={ receita } />
 
             </div>

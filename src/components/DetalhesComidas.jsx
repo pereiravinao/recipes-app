@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Player } from 'video-react';
+// import { Player } from 'video-react';
 import { apiReceitaID } from '../services/RequestApi';
 import BebidaRecomendada from './BebidaRecomendada';
 
@@ -42,14 +42,15 @@ export default function DetalhesComidas() {
 
               <p data-testid="instructions">{ receita.strInstructions }</p>
 
-              <BebidaRecomendada recomenda="recomendaBebida" />
               <div style={ { width: '10px' } } data-testid="video">
-                <Player
+                {/* <Player
                   playsInline
                   src={ receita.strYoutube }
                   // poster={ receita.strMealThumb }
-                />
+                /> */}
               </div>
+              <BebidaRecomendada recomenda="recomendaBebida" />
+
               <BtnIniciarReceita receita={ receita } />
             </div>
           )) }
