@@ -5,29 +5,27 @@ import { apiReceitaID } from '../services/RequestApi';
 import BebidaRecomendada from './BebidaRecomendada';
 
 import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import Ingredientes from './Comidas/Ingredientes';
+import BtnIniciarReceita from './Comidas/BtnIniciarReceita';
 
 export default function DetalhesComidas() {
   const [receitaDetalhes, setReceitaDetalhes] = useState();
+  const [isFavorited, setIsFavorited] = useState(false);
   const location = useLocation().pathname.replace('/comidas/', '');
   const [copied, setCopied] = useState(false);
-  const receitaIniciada = JSON.parse(localStorage
-    .getItem('inProgressRecipes')) || { meals: '' };
-  const idStorage = Object.keys(receitaIniciada.meals)[0];
-
-  const quantidades = !receitaDetalhes ? [] : Object.entries(receitaDetalhes.meals[0])
-    .filter((e) => e[0].includes('strMeasure'))
-    .filter((i) => i[1] !== ' ').map((ing) => ing[1]);
-
-  const ingredients = !receitaDetalhes ? [] : Object.entries(receitaDetalhes.meals[0])
-    .filter((e) => e[0].includes('strIngredient'))
-    .filter((i) => i[1] !== '').map((ing) => ing[1]);
 
   useEffect(() => {
     apiReceitaID(location, '/comidas').then((res) => setReceitaDetalhes(res));
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    setIsFavorited(favoriteRecipes
+      ? favoriteRecipes.some((e) => e.id === location) : false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function saveFavoriteToLocalStorage(recipe) {
+    setIsFavorited(true);
     let favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (favoriteRecipes === null) {
       favoriteRecipes = [];
@@ -46,18 +44,6 @@ export default function DetalhesComidas() {
     };
     localStorage.setItem('favoriteRecipes',
       JSON.stringify([...favoriteRecipes, newFavoriteRecipe]));
-  }
-
-  function saveStorageinProgressRecipes(recipe) {
-    const storageRecipesInProgress = {
-      cocktails: {
-        idDrink: [],
-      },
-      meals: {
-        [recipe]: [],
-      },
-    };
-    localStorage.setItem('inProgressRecipes', JSON.stringify(storageRecipesInProgress));
   }
 
   function handleClick(id) {
@@ -91,24 +77,18 @@ export default function DetalhesComidas() {
                 data-testid="favorite-btn"
                 onClick={ () => saveFavoriteToLocalStorage(receita) }
               >
-                Favoritar
-
+                <img
+                  src={ isFavorited ? blackHeartIcon : whiteHeartIcon }
+                  alt="Favoritar"
+                />
               </button>
               { copied ? 'Link copiado!' : ''}
               <h6 data-testid="recipe-category">{ receita.strCategory}</h6>
-              <ul>
-                Ingredientes:
-                { ingredients
-                  .map((ing, i) => (
-                    <li
-                      data-testid={ `${i}-ingredient-name-and-measure` }
-                      key={ i }
-                    >
-                      {`${ing} - ${quantidades[i]}`}
 
-                    </li>))}
-              </ul>
+              <Ingredientes receitaDetalhes={ receitaDetalhes } />
+
               <p data-testid="instructions">{ receita.strInstructions }</p>
+
               <BebidaRecomendada recomenda="recomendaBebida" />
               <div style={ { width: '10px' } } data-testid="video">
                 <Player
@@ -117,18 +97,7 @@ export default function DetalhesComidas() {
                   // poster={ receita.strMealThumb }
                 />
               </div>
-              <Link to={ `/comidas/${receita.idMeal}/in-progress` }>
-                <button
-                  type="button"
-                  data-testid="start-recipe-btn"
-                  style={ { position: 'fixed', bottom: '0px' } }
-                  onClick={ () => saveStorageinProgressRecipes(receita.idMeal) }
-                >
-                  { idStorage === receita.idMeal
-                    ? 'Continuar Receita' : 'Iniciar Receita'}
-
-                </button>
-              </Link>
+              <BtnIniciarReceita receita={ receita } />
             </div>
           )) }
     </div>
