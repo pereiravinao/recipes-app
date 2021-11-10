@@ -65,7 +65,13 @@ export default function ReceitasProntas() {
 
                     </h4>
                     { recipe.tags.map((tag) => (
-                      <h5 key={ index } data-testid={ `${index}-${tag}-horizontal-tag` }>{ tag }</h5>
+                      <h5
+                        key={ index }
+                        data-testid={ `${index}-${tag}-horizontal-tag` }
+                      >
+                        { tag }
+
+                      </h5>
                     )) }
                   </div>
                 </Link>
