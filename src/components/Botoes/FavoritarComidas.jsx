@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
-export default function Favoritar({ receita }) {
+export default function FavoritarComida({ receita }) {
   const [isFavorited, setIsFavorited] = useState(false);
   const locationId = useLocation().pathname;
   const location = locationId.replace('/comidas/', '');
@@ -37,10 +37,21 @@ export default function Favoritar({ receita }) {
     localStorage.setItem('favoriteRecipes',
       JSON.stringify([...favoriteRecipes, newFavoriteRecipe]));
   }
+
+  function handleClick(recceita) {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (isFavorited) {
+      setIsFavorited(false);
+      const desfavoritar = favoriteRecipes.filter((e) => e.id !== recceita.idMeal);
+      localStorage.setItem('favoriteRecipes',
+        JSON.stringify(desfavoritar));
+    } else { saveFavoriteToLocalStorage(recceita); }
+  }
+
   return (
     <button
       type="button"
-      onClick={ () => saveFavoriteToLocalStorage(receita) }
+      onClick={ () => handleClick(receita) }
     >
       <img
         data-testid="favorite-btn"
@@ -51,6 +62,6 @@ export default function Favoritar({ receita }) {
   );
 }
 
-Favoritar.propTypes = {
+FavoritarComida.propTypes = {
   receita: PropTypes.objectOf.isRequired,
 };

@@ -38,10 +38,20 @@ export default function FavoritarBebidas({ receita }) {
       JSON.stringify([...favoriteRecipes, newFavoriteRecipe]));
   }
 
+  function handleClick(recceita) {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (isFavorited) {
+      setIsFavorited(false);
+      const desfavoritar = favoriteRecipes.filter((e) => e.id !== recceita.idDrink);
+      localStorage.setItem('favoriteRecipes',
+        JSON.stringify(desfavoritar));
+    } else { saveFavoriteToLocalStorage(recceita); }
+  }
+
   return (
     <button
       type="button"
-      onClick={ () => saveFavoriteToLocalStorage(receita) }
+      onClick={ () => handleClick(receita) }
     >
       <img
         data-testid="favorite-btn"
