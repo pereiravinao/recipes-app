@@ -4,11 +4,11 @@ import React from 'react';
 export default function Ingredientes({ receitaDetalhes }) {
   const quantidades = !receitaDetalhes ? [] : Object.entries(receitaDetalhes.drinks[0])
     .filter((e) => e[0].includes('strMeasure'))
-    .filter((i) => i[1] !== ' ').map((ing) => ing[1]);
+    .filter((i) => i[1] !== null).map((ing) => ing[1]);
 
   const ingredients = !receitaDetalhes ? [] : Object.entries(receitaDetalhes.drinks[0])
     .filter((e) => e[0].includes('strIngredient'))
-    .filter((i) => i[1] !== '').map((ing) => ing[1]);
+    .filter((i) => i[1] !== null).map((ing) => ing[1]);
   return (
     <ul>
       Ingredientes:
