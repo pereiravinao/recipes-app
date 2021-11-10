@@ -74,10 +74,10 @@ export default function DetalhesComidas() {
               </button>
               <button
                 type="button"
-                data-testid="favorite-btn"
                 onClick={ () => saveFavoriteToLocalStorage(receita) }
               >
                 <img
+                  data-testid="favorite-btn"
                   src={ isFavorited ? blackHeartIcon : whiteHeartIcon }
                   alt="Favoritar"
                 />
