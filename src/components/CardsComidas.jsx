@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-
 import Context from '../context/Context';
 
 export default function CardsComidas() {

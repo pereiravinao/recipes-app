@@ -60,6 +60,7 @@ export default function Comidas() {
 
     <div>
       <Header title="Comidas" search />
+      {btnCategory ? <BtnFilter page={ history } /> : ''}
       {requestApi ? <CardsComidas /> : <Loading />}
       <Footer />
     </div>
