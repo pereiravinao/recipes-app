@@ -5,22 +5,27 @@ import { apiReceitaID } from '../services/RequestApi';
 import BebidaRecomendada from './BebidaRecomendada';
 
 import shareIcon from '../images/shareIcon.svg';
-// import blackHeartIcon from '../images/blackHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import Ingredientes from './Comidas/Ingredientes';
 import BtnIniciarReceita from './Comidas/BtnIniciarReceita';
 
 export default function DetalhesComidas() {
   const [receitaDetalhes, setReceitaDetalhes] = useState();
+  const [isFavorited, setIsFavorited] = useState(false);
   const location = useLocation().pathname.replace('/comidas/', '');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     apiReceitaID(location, '/comidas').then((res) => setReceitaDetalhes(res));
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    setIsFavorited(favoriteRecipes
+      ? favoriteRecipes.some((e) => e.id === location) : false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function saveFavoriteToLocalStorage(recipe) {
+    setIsFavorited(true);
     let favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (favoriteRecipes === null) {
       favoriteRecipes = [];
@@ -72,7 +77,10 @@ export default function DetalhesComidas() {
                 data-testid="favorite-btn"
                 onClick={ () => saveFavoriteToLocalStorage(receita) }
               >
-                <img src={ whiteHeartIcon } alt="Favoritar" />
+                <img
+                  src={ isFavorited ? blackHeartIcon : whiteHeartIcon }
+                  alt="Favoritar"
+                />
               </button>
               { copied ? 'Link copiado!' : ''}
               <h6 data-testid="recipe-category">{ receita.strCategory}</h6>
