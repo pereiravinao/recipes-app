@@ -37,7 +37,6 @@ export default function ReceitasProntas() {
   }
 
   function renderFavoriteRecipes(doneRecipes) {
-
     if (doneRecipes.length > 0) {
       return (
         doneRecipes.map((recipe, index) => {
