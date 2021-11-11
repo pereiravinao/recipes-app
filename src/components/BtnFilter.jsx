@@ -60,7 +60,14 @@ export default function BtnFilter({ page }) {
               {strCategory}
             </button>
           )) : ''}
-      <button type="button" data-testid="All-category-filter" onClick={ (e) => handleClick(e) }>All</button>
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ (e) => handleClick(e) }
+      >
+        All
+
+      </button>
     </div>
   );
 }
