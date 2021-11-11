@@ -26,7 +26,7 @@ export default function Comidas() {
       filtroBtnCategorias('themealdb')
         .then((results) => setBtnCategory(results.meals));
     }
-  }, []);
+  }, [loadFirstTime, setRequestApi, setBtnCategory]);
 
   if (typeof requestApi === 'object') {
     if (requestApi.meals === null) {

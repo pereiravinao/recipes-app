@@ -16,7 +16,8 @@ export default function DetalhesBebidas() {
   useEffect(() => {
     apiReceitaID(location, '/bebidas').then((res) => setReceitaDetalhes(res));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location]);
+
   return (
     <div>
       { !receitaDetalhes

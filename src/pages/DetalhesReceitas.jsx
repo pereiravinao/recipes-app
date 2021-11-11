@@ -14,7 +14,7 @@ export default function DetalhesReceitas({ match, history }) {
     apiReceitaID(changeInput, pageLocation)
       .then((results) => setRequestApi(results));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [changeInput, pageLocation, setRequestApi]);
 
   return (
     <div>

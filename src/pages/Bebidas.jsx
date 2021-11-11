@@ -25,7 +25,7 @@ export default function Comidas() {
       filtroBtnCategorias('thecocktaildb')
         .then((results) => setBtnCategory(results.drinks));
     }
-  }, []);
+  }, [loadFirstTime, setRequestApi, setBtnCategory]);
 
   if (typeof requestApi === 'object') {
     if (requestApi.drinks === null) {

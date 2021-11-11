@@ -34,7 +34,7 @@ export default function ExplorarComidasArea() {
       filtroBtnCategorias('themealdb')
         .then((results) => setBtnCategory(results.meals));
     }
-  }, []);
+  }, [loadFirstTime, setBtnCategory, setRequestApi]);
 
   function handleSelectChange({ target: { value } }) {
     if (value !== 'All') {

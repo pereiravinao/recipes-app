@@ -14,7 +14,7 @@ export default function FavoritarBebidas({ receita }) {
     setIsFavorited(favoriteRecipes
       ? favoriteRecipes.some((e) => e.id === location) : false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location]);
 
   function saveFavoriteToLocalStorage(recipe) {
     setIsFavorited(true);

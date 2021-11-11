@@ -17,7 +17,7 @@ export default function DetalhesComidas() {
   useEffect(() => {
     apiReceitaID(location, '/comidas').then((res) => setReceitaDetalhes(res));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location]);
 
   return (
     <div>
