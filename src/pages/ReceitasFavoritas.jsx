@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Copy from 'clipboard-copy';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
@@ -17,10 +18,11 @@ export default function ReceitasFavoritas() {
     setAllRecipes(favoriteRecipesFromLocalStorage);
   }, []);
 
-  async function shareAction(link) {
-    console.log('Copiou');
-    await navigator.clipboard.writeText(link);
+  function shareAction(link) {
+    const ONE_SECOND = 1000;
     setCopyStatus(true);
+    Copy(link);
+    setTimeout(() => setCopyStatus(false), ONE_SECOND);
   }
 
   function removeFromLocalStorage(index) {
@@ -67,7 +69,7 @@ export default function ReceitasFavoritas() {
                 </button>
                 <button
                   type="button"
-                  onClick={ () => shareAction(`http://localhost:3000/comidas/${recipe.id}`) }
+                  onClick={ async () => shareAction(`http://localhost:3000/comidas/${recipe.id}`) }
                 >
                   <img
                     src={ shareIcon }
@@ -106,7 +108,7 @@ export default function ReceitasFavoritas() {
               </button>
               <button
                 type="button"
-                onClick={ () => shareAction(`http://localhost:3000/bebidas/${recipe.id}`) }
+                onClick={ async () => shareAction(`http://localhost:3000/bebidas/${recipe.id}`) }
               >
                 <img
                   src={ shareIcon }
