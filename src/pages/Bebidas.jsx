@@ -14,15 +14,18 @@ export default function Comidas() {
     setBtnCategory,
     btnCategory,
     redirectDisable,
+    loadFirstTime,
   } = useContext(Context);
   const history = useHistory();
 
   useEffect(() => {
-    apiNome('', '/bebidas')
-      .then((results) => setRequestApi(results));
-    filtroBtnCategorias('thecocktaildb')
-      .then((results) => setBtnCategory(results.drinks));
-  }, []);
+    if (loadFirstTime) {
+      apiNome('', '/bebidas')
+        .then((results) => setRequestApi(results));
+      filtroBtnCategorias('thecocktaildb')
+        .then((results) => setBtnCategory(results.drinks));
+    }
+  }, [loadFirstTime, setRequestApi, setBtnCategory]);
 
   if (typeof requestApi === 'object') {
     if (requestApi.drinks === null) {

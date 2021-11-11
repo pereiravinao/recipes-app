@@ -18,17 +18,11 @@ export default function Components() {
   return (
     <Switch>
 
-      <Route path="/comidas/:id" component={ DetalhesReceitas } />
-      <Route path="/bebidas/:id" component={ DetalhesReceitas } />
+      <Route path="/comidas/:id/in-progress" component={ ReceitasEmProgresso } />
+      <Route path="/bebidas/:id/in-progress" component={ ReceitasEmProgresso } />
 
-      <Route
-        path="/comidas/:id/in-progress"
-        component={ ReceitasEmProgresso }
-      />
-      <Route
-        path="/bebidas/:id/in-progress"
-        component={ ReceitasEmProgresso }
-      />
+      <Route exact path="/comidas/:id" component={ DetalhesReceitas } />
+      <Route exact path="/bebidas/:id" component={ DetalhesReceitas } />
 
       <Route exact path="/explorar" component={ Explorar } />
       <Route exact path="/explorar/comidas" component={ ExplorarComidas } />
@@ -38,6 +32,7 @@ export default function Components() {
       <Route path="/explorar/bebidas/ingredientes" component={ ExplorarIngredientes } />
 
       <Route path="/explorar/comidas/area" component={ ExplorarComidasArea } />
+      <Route path="/explorar/bebidas/area" render={ () => 'Not Found' } />
 
       <Route path="/perfil" component={ Perfil } />
       <Route path="/receitas-feitas" component={ ReceitasProntas } />

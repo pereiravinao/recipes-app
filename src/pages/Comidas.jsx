@@ -15,15 +15,18 @@ export default function Comidas() {
     btnCategory,
     setBtnCategory,
     redirectDisable,
+    loadFirstTime,
   } = useContext(Context);
   const history = useHistory();
 
   useEffect(() => {
-    apiNome('', '/comidas')
-      .then((results) => setRequestApi(results));
-    filtroBtnCategorias('themealdb')
-      .then((results) => setBtnCategory(results.meals));
-  }, []);
+    if (loadFirstTime) {
+      apiNome('', '/comidas')
+        .then((results) => setRequestApi(results));
+      filtroBtnCategorias('themealdb')
+        .then((results) => setBtnCategory(results.meals));
+    }
+  }, [loadFirstTime, setRequestApi, setBtnCategory]);
 
   if (typeof requestApi === 'object') {
     if (requestApi.meals === null) {
@@ -57,6 +60,7 @@ export default function Comidas() {
 
     <div>
       <Header title="Comidas" search />
+      {btnCategory ? <BtnFilter page={ history } /> : ''}
       {requestApi ? <CardsComidas /> : <Loading />}
       <Footer />
     </div>
