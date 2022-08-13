@@ -1,16 +1,26 @@
-# 🚧 README em construção 🚧
 
-<!-- Olá, Tryber!
+# App de Receitas
 
-Esse é apenas um arquivo inicial para o README do seu projeto.
+Possível ver, buscar, filtrar, favoritar e acompanhar o progresso de preparação de receitas e drinks!
+A base de dados são 2 APIs distintas, uma para comidas e outra para bebidas.
+O layout tem como foco dispositivos móveis.
 
-É essencial que você preencha esse documento por conta própria, ok?
+## 🛠 Habilidades
+- Utilizar Redux para gerenciar estado
+- Utilizar a biblioteca React-Redux
+- Utilizar a Context API do React para gerenciar estado
+- Utilizar o React Hook useState
+- Utilizar o React Hook useContext
+- Utilizar o React Hook useEffect
+- Criar Hooks customizados
 
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
+## Autores
+- [@pereiravinao](https://www.github.com/pereiravinao)
+- [@PatrickRP](https://www.github.com/PatrickRP)
+- [@jessicqueiroz](https://www.github.com/jessicqueiroz)
+- [@Rafarello](https://www.github.com/Rafarello)
 
-⚠️ IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
+## Apêndice
+Este projeto contém um template de uma aplicação React criado e configurado pela escola Trybe
 
--->
+
